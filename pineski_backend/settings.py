@@ -29,18 +29,19 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'corsheaders',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
-    'pineski.apps.PineskiConfig'
+    'rest_framework_simplejwt',    # Przecinek tutaj!
+    'pineski.apps.PineskiConfig',  # Przecinek tutaj!
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',           # <--- DODAJ TO NA SAMĄ GÓRĘ
@@ -126,3 +127,17 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Domyślny typ pola klucza głównego
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Konfiguracja Django Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+# Ustawienia czasu trwania sesji logowania
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
